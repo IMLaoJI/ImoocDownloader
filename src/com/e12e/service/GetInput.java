@@ -24,7 +24,8 @@ public class GetInput {
 		int videoDef = 0;
 		Scanner scanner = new Scanner(System.in);
 		while (true) {
-			System.out.println("请输入要下载的清晰度，【0】超清，【1】高清，【2】普清：");
+			//慕课网api升级，清晰度排序反转~
+			System.out.println("请输入要下载的清晰度，【0】普清，【1】高清，【2】超清：");
 			try {
 				videoDef = scanner.nextInt();
 				if (videoDef > 2 || videoDef < 0) {

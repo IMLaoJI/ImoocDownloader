@@ -105,7 +105,7 @@ public class Main {
 
 					// 获取课程资料附件
 					try {
-						GetFile.doGetFile(videoNos[2], title);
+						GetFile.doGetFile(classNo, title);
 						System.out.println("课程资料附件\t下载成功！\n");
 					} catch (IOException e) {
 						System.out.println("下载课程资料附件时出现异常！\n");
