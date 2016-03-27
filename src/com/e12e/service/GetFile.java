@@ -17,19 +17,19 @@ public class GetFile {
 	 *            课程名称，用于获得路径，存放附件
 	 * @throws IOException 
 	 */
-	public static void doGetFile(int classNo , String className) throws IOException {
+	public static void doGetFile(String videoNo, String className) throws IOException {
 		// 获得要解析的网页文档
 		Document doc = null;
-		doc = Jsoup.connect("http://www.imooc.com/learn/" + classNo).get();
+		doc = Jsoup.connect("http://www.imooc.com/video/" + videoNo).get();
 
-		Elements efilePaths = doc.select("ul.downlist li");
+		Elements efilePaths = doc.select(".coursedownload a");
 
 		// 遍历下载所有附件
 		for (Element efilePath : efilePaths) {
-			String filePath = efilePath.select("a").attr("href");
+			String filePath = efilePath.attr("href");
 			String[] s = filePath.split("\\.");
 			String lastName = s[s.length - 1];
-			String fileName = efilePath.select("span").text();
+			String fileName = efilePath.attr("title");
 			DownloadFile.downLoadFromUrl(filePath, fileName + "." + lastName,
 					"./download/" + className + "/课程资料/");
 		}
