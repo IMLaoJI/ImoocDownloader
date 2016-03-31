@@ -81,6 +81,15 @@ public class Main {
 				Document jsonDoc;
 				String[] videoNos = video.attr("href").split("/");
 
+				
+				try {
+					GetFile.doGetFile(videoNos[2], title);
+//					System.out.println("课程资料附件\t下载成功！\n");
+				} catch (IOException e) {
+					System.out.println("下载课程资料附件时出现异常！\n");
+				}
+				
+				
 				// 控制课程相关信息只获取一次
 				if (flag) {
 					// 创建课程文件夹
@@ -104,12 +113,12 @@ public class Main {
 					}
 
 					// 获取课程资料附件
-					try {
+/*					try {
 						GetFile.doGetFile(videoNos[2], title);
 						System.out.println("课程资料附件\t下载成功！\n");
 					} catch (IOException e) {
 						System.out.println("下载课程资料附件时出现异常！\n");
-					}
+					}*/
 
 					flag = false;
 				}
@@ -157,9 +166,9 @@ public class Main {
 			System.out
 					.println("\n【"
 							+ title
-							+ "】课程的下载任务已完成！！！已下载到该程序所在目"
-							+ "录download文件夹下。\n慕课网视频批量下载工具 v1.3  By Coande"
-							+ "\n-------------------------------------------------------\n");
+							+ "】课程的下载任务已完成！！！\n已下载到该程序所在目"
+							+ "录download文件夹下。\n慕课网视频批量下载工具 v1.4  By Coande"
+							+ "\n----------------------------------------------------------\n");
 		}
 	}
 

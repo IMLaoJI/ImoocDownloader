@@ -24,6 +24,7 @@ public class DownloadFile {
 		}
 		File file = new File(saveDir + File.separator + fileName);
 
+		//文件不存在才进行下载
 		if (!file.exists()) {
 			URL url = new URL(urlStr);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
