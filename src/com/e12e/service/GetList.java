@@ -1,7 +1,6 @@
 package com.e12e.service;
 
 import java.io.FileWriter;
-import java.io.IOException;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -10,11 +9,18 @@ public class GetList {
 
 	/**
 	 * 生成course_list.html文件
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
-	public static void doGetList(Elements videos, String savePath) throws Exception {
+	public static void doGetList(Elements videos, String savePath)
+			throws Exception {
 
 		int curruntGlobalCount = 0;
+		String[] videoNos;
+		String url;
+		String codeName;
+		String videoName;
+
 		FileWriter htmlWriter = new FileWriter(savePath + "course_list.html");
 
 		String htmlText = "<!DOCTYPE html><html><head>"
@@ -23,24 +29,24 @@ public class GetList {
 				+ "http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css\" />"
 				+ "</head><body><table  data-role=table data-mode=reflow class=\"ui-responsive table-stroke\">"
 				+ "<thead><th>No.</th><th>课程名称</th><th>在线地址</th></thead><tbody>";
-		
+
 		// 拼凑HTML
 		for (Element video : videos) {
 			curruntGlobalCount++;
 
-			String[] videoNos = video.attr("href").split("/");
-			String url = "http://www.imooc.com" + video.attr("href");
+			videoNos = video.attr("href").split("/");
+			url = "http://www.imooc.com" + video.attr("href");
 
 			// 记录在html中：
 			if (!videoNos[1].equals("video")) {
-				String codeName = video.html().trim();
+				codeName = video.html().trim();
 				htmlText += "<tr><td>" + curruntGlobalCount + "</td><td>"
 						+ codeName + "</td><td><a href='" + url
 						+ "'>去慕课网练习*</a></td></tr>\n";
 				continue;
-			}else{
+			} else {
 				// 获得视频课程名称
-				String videoName = video.html()
+				videoName = video.html()
 						.substring(0, video.html().length() - 7).trim();
 
 				htmlText += "<tr><td>" + curruntGlobalCount + "</td><td>"

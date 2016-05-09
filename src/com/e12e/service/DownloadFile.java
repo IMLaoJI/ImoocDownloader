@@ -1,6 +1,5 @@
 package com.e12e.service;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,48 +23,30 @@ public class DownloadFile {
 		}
 		File file = new File(saveDir + File.separator + fileName);
 
-		//文件不存在才进行下载
+		// 文件不存在才进行下载
 		if (!file.exists()) {
 			URL url = new URL(urlStr);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			// 设置超时为3秒
-			conn.setConnectTimeout(3 * 1000);
+			// 设置超时为10秒
+			conn.setConnectTimeout(10 * 1000);
 			// 防止屏蔽程序抓取而返回403错误
-			conn.setRequestProperty("User-Agent",
-					"Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+			conn.setRequestProperty(
+					"User-Agent",
+					"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36");
 
 			// 得到输入流
 			InputStream inputStream = conn.getInputStream();
-			// 获取自己数组
-			byte[] getData = readInputStream(inputStream);
 
 			FileOutputStream fos = new FileOutputStream(file);
-			fos.write(getData);
-			if (fos != null) {
-				fos.close();
+			byte[] temp = new byte[1024];
+			int len;
+			while ((len = inputStream.read(temp)) != -1) {
+				fos.write(temp, 0, len);
 			}
-			if (inputStream != null) {
-				inputStream.close();
-			}
+
+			fos.close();
+			inputStream.close();
 		}
 	}
 
-	/**
-	 * 从输入流中获取字节数组
-	 * 
-	 * @param inputStream
-	 * @return
-	 * @throws IOException
-	 */
-	public static byte[] readInputStream(InputStream inputStream)
-			throws IOException {
-		byte[] buffer = new byte[1024];
-		int len = 0;
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		while ((len = inputStream.read(buffer)) != -1) {
-			bos.write(buffer, 0, len);
-		}
-		bos.close();
-		return bos.toByteArray();
-	}
 }
